@@ -1,5 +1,7 @@
 from pypdf import PdfReader
 import re
+import sys
+import os
 
 
 def extract_text_from_pdf(pdf_path):
@@ -144,9 +146,25 @@ def print_course_results(result):
 
 
 if __name__ == "__main__":
-    pdf_path = "local_test_data/degree work.pdf"
+    if len(sys.argv) < 2:
+        print("Usage: python src/DegreeWorksParser.py <degreeworks_pdf>")
+        sys.exit(1)
 
-    degreeworks_text = extract_text_from_pdf(pdf_path)
-    result = parse_courses(degreeworks_text)
+    pdf_path = sys.argv[1]
 
-    print_course_results(result)
+    if not os.path.exists(pdf_path):
+        print(f"Error: File not found: {pdf_path}")
+        sys.exit(1)
+
+    if not pdf_path.lower().endswith(".pdf"):
+        print("Error: DegreeWorks input must be a PDF file.")
+        sys.exit(1)
+
+    try:
+        degreeworks_text = extract_text_from_pdf(pdf_path)
+        result = parse_courses(degreeworks_text)
+        print_course_results(result)
+
+    except Exception as error:
+        print(f"Error reading DegreeWorks PDF: {error}")
+        sys.exit(1)
