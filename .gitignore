@@ -1,0 +1,6 @@
+# Local test files containing student information
+local_test_data/
+
+# Python cache files
+__pycache__/
+*.pyc
