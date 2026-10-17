@@ -2,7 +2,13 @@ from pypdf import PdfReader
 import re
 import sys
 import os
+import json
 
+
+OUTPUT_FILE = os.path.join(
+    "data",
+    "degree_works_info.json"
+)
 
 def extract_text_from_pdf(pdf_path):
     """Extract text from every page of a DegreeWorks PDF."""
@@ -99,6 +105,24 @@ def parse_courses(text):
         "remaining_courses": list(remaining.values())
     }
 
+def save_degree_progress(degree_progress):
+    os.makedirs(
+        os.path.dirname(OUTPUT_FILE),
+        exist_ok=True
+    )
+
+    with open(
+        OUTPUT_FILE,
+        "w",
+        encoding="utf-8"
+    ) as file:
+        json.dump(
+            degree_progress,
+            file,
+            indent=4,
+            ensure_ascii=False
+        )
+
 
 def print_course_results(result):
     """Display parsed DegreeWorks course information."""
@@ -163,6 +187,7 @@ if __name__ == "__main__":
     try:
         degreeworks_text = extract_text_from_pdf(pdf_path)
         result = parse_courses(degreeworks_text)
+        save_degree_progress(result)
         print_course_results(result)
 
     except Exception as error:
