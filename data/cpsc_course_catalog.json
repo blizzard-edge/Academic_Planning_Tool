@@ -1,0 +1,586 @@
+[
+    {
+        "course_code": "CPSC 1105",
+        "title": "Introduction to Computing Principles and Technology",
+        "course_hours": "(3-0-3)",
+        "description": "This course explores foundational computing principles and computational thinking, focusing on emerging technologies like AI, data management and analysis, and security, and their impact on modern professional environments.",
+        "prerequisites": null,
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 1107",
+        "title": "Introduction to Application Programming",
+        "course_hours": "(3-0-3)",
+        "description": "This course introduces Python programming, emphasizing practical problem-solving across diverse fields. It covers core programming concepts, object-oriented design, algorithmic thinking, and methods for processing and analyzing data.",
+        "prerequisites": null,
+        "restrictions": "Enrollment is limited to Undergraduate Level level students."
+    },
+    {
+        "course_code": "CPSC 1301K",
+        "title": "Computer Science I",
+        "course_hours": "(3-3-4)",
+        "description": "This course introduces an overview of programming and computational problem solving. It includes a lab component with hands-on activities to apply and reinforce topics covered in real-world contexts.",
+        "prerequisites": null,
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 1302K",
+        "title": "Computer Science II",
+        "course_hours": "(3-3-4)",
+        "description": "A continuation of CPSC 1301K . This course emphasizes programming using object-oriented methods. The fundamentals used in designing, developing and using classes, encapsulation, inheritance mechanisms, polymorphism and dynamic binding.",
+        "prerequisites": "(CPSC 1301 with a minimum grade of C or CPSC 1301H with a minimum grade of C or CPSC 1301K with a minimum grade of C or CSCI 1301K with a minimum grade of C or CPSC 1301I with a minimum grade of C) and MATH 1113 (may be taken concurrently) with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 1305",
+        "title": "Introduction to Computing Principles and Technology Lab",
+        "course_hours": "(0-3-1)",
+        "description": "This course provides hands-on experience with core information technology applications aligned to industry standards, digital literacy, and emerging AI tools, while building career-ready skills. By the end of the course, students will possess the foundational knowledge and skills required to pursue industry-recognized certification or earn a verified digital badge.\n**This course can be taken with or without CPSC 1105 .",
+        "prerequisites": null,
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 1555",
+        "title": "Selected Topics in Computer Science",
+        "course_hours": "((1-3)-0-(1-3))",
+        "description": "Study of introductory topics of special interest, independent study, or directed experience in the field of computing. Course may be taken three times. A maximum of three credit hours may be applied to the degree program.",
+        "prerequisites": null,
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 2105",
+        "title": "Computer Organization",
+        "course_hours": "(3-0-3)",
+        "description": "Overview of basic computer organization. Representation of data in computers. Introduction of Boolean Algebra and logic gates used to implement Boolean functions. Introduction to flip-flops and sequential logic. Methods to reduce the complexity of Boolean functions-algebraic and K-Maps. Overview of computer arithmetic. Instruction set architecture of a sample computer. Interaction of the machine and computer languages including discussion of the compilation, assembly, and loading process.",
+        "prerequisites": "(CPSC 1301 with a minimum grade of C or CPSC 1301H with a minimum grade of C or CPSC 1301K with a minimum grade of C or CPSC 1301I with a minimum grade of C) and MATH 2125 (may be taken concurrently) with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 2108",
+        "title": "Data Structures",
+        "course_hours": "(3-0-3)",
+        "description": "This course delves into problem-solving and algorithm analysis through recursion and abstract data types. Emphasis is placed on the design, implementation, and performance analysis of various algorithms.",
+        "prerequisites": "(CPSC 1302 with a minimum grade of C or CPSC 1302H with a minimum grade of C or CPSC 1302K with a minimum grade of C) and MATH 2125 with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 2115",
+        "title": "Information Technology Fundamentals",
+        "course_hours": "(3-0-3)",
+        "description": "This course provides students with a foundation in the fundamentals of Information Technology to include the fundamental knowledge of the hardware, software and skills necessary to set up and securely use a computer, keep it in good working order and perform basic support for PCs and simple computer networks. The lessons include practical setup guides, as well as hands-on labs for the student to practice their new skills before deploying these technologies and strategies in a production network. Upon completion, a student will be prepared to take and pass the CompTIA IT Fundamentals+ industry certification exam.",
+        "prerequisites": null,
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 2125",
+        "title": "Internet Programming",
+        "course_hours": "(3-0-3)",
+        "description": "This course introduces Internet programming and front-end web development, covering essential concepts, techniques, and tools used in creating interactive, responsive websites, and multimedia content.",
+        "prerequisites": "CPSC 1301 with a minimum grade of C or CPSC 1301H with a minimum grade of C or CPSC 1301K with a minimum grade of C or CPSC 1301I with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 2555",
+        "title": "Selected Topics in Computer Science",
+        "course_hours": "((1-3)-0-(1-3))",
+        "description": "Study of topics of special interest, independent study, or directed experience in the field of computing.",
+        "prerequisites": "CPSC 1301K with a minimum grade of C or CPSC 1301 with a minimum grade of C or CPSC 1301H with a minimum grade of C or CPSC 1301I with a minimum grade of C or CPSC 1301X with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 3105",
+        "title": "Digital Multimedia Development",
+        "course_hours": "(3-0-3)",
+        "description": "This course teaches the student digital design principles and techniques. Students will learn how to create digital multimedia that can be used in software applications and Web sites. As part of this, students will develop an understanding of digital image theories, develop an understanding of how to create digital multimedia, analyze the needs associated with creating this multimedia, become familiar with the digital multimedia development process and available tools, and then implement this process while applying their knowledge to create a working, digital multimedia application or Web site.",
+        "prerequisites": "CPSC 2125 with a minimum grade of C or CPSC 2125H with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 3107",
+        "title": "Introduction to Cloud Computing",
+        "course_hours": "(3-0-3)",
+        "description": "Cloud Computing (CC) has disruptively joined the mainstream of Information & Communication Technology as a paradigm shifting computing from being a product to becoming a utility/service. This course introduces students to the fundamentals of CC, by first inspecting its evolving through computing history, how it evolved to becoming a paradigm, then investigating its principles, services, models, and the enabling technologies behind, e.g., virtualization and distributed systems. The course exposes students to Openstack, as the most renowned open-source CC infrastructure. Therefore, it provides them with real-world skills to deploy their own private cloud. The course concludes with Edge Computing as the next step in CC evolution.",
+        "prerequisites": null,
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 3111",
+        "title": "COBOL Programming",
+        "course_hours": "(3-0-3)",
+        "description": "Introduction to programming in COBOL. Emphasis on structured design techniques. Computer assignments required.",
+        "prerequisites": "CPSC 1302 with a minimum grade of C or CPSC 1302H with a minimum grade of C or CPSC 1302K with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 3116",
+        "title": "z/OS and JCL",
+        "course_hours": "(3-0-3)",
+        "description": "This course presents an overview of IBM mainframe operating systems currently in use in the area. It includes common terminology, the most used JCL features, and an introduction to the scripting language REXX and its variants.",
+        "prerequisites": "CPSC 1302 with a minimum grade of C or CPSC 1302H with a minimum grade of C or CPSC 1302K with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 3118",
+        "title": "Introduction to Human-Computer Interaction",
+        "course_hours": "(3-0-3)",
+        "description": "This course examines the intersection of design, psychology, and computing through the lens of Human-Computer Interaction (HCI). Students explore how people engage with technology and apply these insights to the design and development of interactive systems that emphasize usability, accessibility, and user experience.",
+        "prerequisites": "CPSC 1302 with a minimum grade of C or CPSC 1302H with a minimum grade of C or CPSC 1302K with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 3121",
+        "title": "Assembly Language Programming I",
+        "course_hours": "(3-0-3)",
+        "description": "An introduction to assembly language for mainframes or PC's. Topics include machine architecture (registers, memory, instruction formats), character data processing, decimal arithmetic, binary arithmetic, subroutine and program linkage.",
+        "prerequisites": "( CPSC 2105 with a minimum grade of C or CPSC 2105H with a minimum grade of C) and (CPSC 1302 with a minimum grade of C or CPSC 1302H with a minimum grade of C or CPSC 1302K with a minimum grade of C)",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 3125",
+        "title": "Operating Systems",
+        "course_hours": "(3-0-3)",
+        "description": "An introduction to basic operating system level software concepts. Course topics include processes, threads, symmetric multi-processing, thread synchronization and memory management techniques.",
+        "prerequisites": "( CPSC 2105 with a minimum grade of C or CPSC 2105H with a minimum grade of C) and CPSC 2108 with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 3126",
+        "title": "Programming for Data Science",
+        "course_hours": "(3-0-3)",
+        "description": "This course introduces programming techniques for data manipulation, covering data import from various formats. It also explores foundational data visualization methods and basic applications of AI and statistical analysis for data insights.",
+        "prerequisites": "CPSC 1301 with a minimum grade of C or CPSC 1301H with a minimum grade of C or CPSC 1301K with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 3131",
+        "title": "Database Systems I",
+        "course_hours": "(3-0-3)",
+        "description": "This course covers the fundamental principles of database systems, with a focus on design, implementation, and application development using SQL. It explores database models, data integrity, normalization, and the management of data within file systems.",
+        "prerequisites": "CPSC 1302 with a minimum grade of C or CPSC 1302K with a minimum grade of C or CPSC 1302H with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 3137",
+        "title": "Natural Language Processing and Text Mining",
+        "course_hours": "(3-0-3)",
+        "description": "This course focuses on programming techniques for mining and analyzing text to discover patterns, extract meaningful information, and support decision-making in real-world problems.",
+        "prerequisites": "CPSC 1301K with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 3156",
+        "title": "Transaction Processing",
+        "course_hours": "(3-0-3)",
+        "description": "An introduction to interactive processing in a transaction-based computer system. Topics include multitasking, multi threading, maps, pseudo conversational programming and large system design. Standard tools, such as CICS and REXX for CICS will be discussed.  The course will include an introduction to SOA (Service Oriented Architecture).",
+        "prerequisites": "CPSC 3111 with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 3165",
+        "title": "Professionalism in Computing",
+        "course_hours": "(2-0-2)",
+        "description": "The social impact, implications and effects of computers on society, and the responsibilities of computer professionals in directing the emerging technology. Includes the examinations of reliable,risk-free technologies, and systems which provide user friendly processes. Specific topics include an overview of the history of computing, computer applications and their impact, the computing profession, and the legal and ethical responsibilities of professionals.",
+        "prerequisites": null,
+        "restrictions": "Freshman or Sophomore students may not enroll."
+    },
+    {
+        "course_code": "CPSC 3175",
+        "title": "Object-Oriented Design",
+        "course_hours": "(3-0-3)",
+        "description": "This course explores object-oriented software design patterns, highlighting the use of the Object-Oriented Paradigm for problem-solving and software development to effectively design, model, and implement software solutions.",
+        "prerequisites": "CPSC 2108 with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 3415",
+        "title": "Information Technology (IT) Practicum",
+        "course_hours": "(0-5-1)",
+        "description": "The course is designed for Information Technology (IT) majors, offering them the chance to enhance their IT skills through hands-on practical experiences. It can be taken for credit up to three times, provided that each repetition explores different IT units or experimentation with a different IT domain and industrial tool(s).",
+        "prerequisites": null,
+        "restrictions": "Freshman students may not enroll."
+    },
+    {
+        "course_code": "CPSC 3555",
+        "title": "Selected Topics in Computer Science",
+        "course_hours": "((1-3)-0-(1-3))",
+        "description": "This course explores special topics in computer science, offering an in-depth study of emerging technologies and contemporary IT trends not covered in the standard curriculum. It provides flexibility to examine rapidly evolving areas, highlighting cutting-edge developments and their practical applications.",
+        "prerequisites": "CPSC 1302 with a minimum grade of C or CPSC 1302K with a minimum grade of C or CPSC 1302H with a minimum grade of C",
+        "restrictions": "Freshman students may not enroll."
+    },
+    {
+        "course_code": "CPSC 4000",
+        "title": "Baccalaureate Survey",
+        "course_hours": "(0-0-0)",
+        "description": "This is a zero-credit hour course that must be taken in the last semester prior to graduation. It includes an outcomes assessment for the major and an exit survey. (S/U grading)",
+        "prerequisites": null,
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 4111",
+        "title": "Game and Simulation Programming I",
+        "course_hours": "(3-0-3)",
+        "description": "This course introduces game programming and emphasizes the complete development process, guiding the creation of a fully functional 2D game using a modern game engine.",
+        "prerequisites": "( CPSC 3118 with a minimum grade of C and CPSC 3175 with a minimum grade of C)",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 4112",
+        "title": "Game and Simulation Programming II",
+        "course_hours": "(3-0-3)",
+        "description": "This course explores the principles of 3D game development and advanced concepts in multiplayer and Massively Multiplayer Online Games (MMOGs), culminating in the creation of a fully functional 3D game using a game engine.",
+        "prerequisites": "( CPSC 4111 with a minimum grade of C and CPSC 4113 (may be taken concurrently) with a minimum grade of C)",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 4113",
+        "title": "Game Jam",
+        "course_hours": "(0-3-1)",
+        "description": "This course is designed for students in CPSC 4112 to collaborate in teams and develop a functional video game prototype within 48 hours. Students will apply their skills to design, implement, and deliver a complete game based on a theme provided at the start of the course, emphasizing creativity, teamwork, and rapid problem-solving.",
+        "prerequisites": "( CPSC 4111 with a minimum grade of C and CPSC 4112 (may be taken concurrently) with a minimum grade of C)",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 4115",
+        "title": "Algorithms",
+        "course_hours": "(3-0-3)",
+        "description": "This course emphasizes the analytical study of data structures and algorithms, focusing on the evaluation of algorithms in terms of time and space complexity. It explores multiple algorithm design techniques in depth and examines the classification of problems into complexity classes.",
+        "prerequisites": "CPSC 2108 with a minimum grade of C and MATH 5125U with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 4121",
+        "title": "Robotics Programming I",
+        "course_hours": "(3-0-3)",
+        "description": "In this course the basic principles of Robotics programming will be introduced.  Various types of robots will be programmed to accomplish a series of tasks.  Topics include: Design and construction of robotic bases, Design and construction of attachments for specific tasks, Microcontroller architecture and programming, and Programming of robots to carry out assigned tasks.",
+        "prerequisites": "CPSC 1302 with a minimum grade of C or CPSC 1302H with a minimum grade of C or CPSC 1302K with a minimum grade of C",
+        "restrictions": "Freshman students may not enroll."
+    },
+    {
+        "course_code": "CPSC 4125",
+        "title": "Server-Side Web Development",
+        "course_hours": "(3-0-3)",
+        "description": "This course covers the foundations of server-side full-stack web development, focusing on designing, implementing, and maintaining dynamic web applications.",
+        "prerequisites": "( CPSC 2125 with a minimum grade of C and CPSC 3131 with a minimum grade of C)",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 4131",
+        "title": "Full Stack Web Development",
+        "course_hours": "(3-0-3)",
+        "description": "This course introduces full-stack web development, emphasizing modern front-end and back-end frameworks, APIs, and related technologies. It also addresses security, accessibility, UI/UX design, and unit testing in web applications.",
+        "prerequisites": "CPSC 4125 with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 4132",
+        "title": "Web Development Projects",
+        "course_hours": "(3-0-3)",
+        "description": "This course is a continuation of CPSC 4131 , Introduction to Server-Side Web Development. This is a project-based class. Teams consisting of 3-4 students will develop working prototypes of large-scale web applications. Teams and their individual members will be required to make presentations reflecting progress through each stage of the project development: task formulation, analysis, prototyping and design, coding, debugging and testing. The final report will include a demonstration of the fully functional project.",
+        "prerequisites": "CPSC 4125 with a minimum grade of C or CPSC 4131 with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 4135",
+        "title": "Programming Languages",
+        "course_hours": "(3-0-3)",
+        "description": "This course provides a basis for the understanding of complex modern programming languages including their foundation, implementation,\nand formal description.",
+        "prerequisites": "CPSC 3175 with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 4145",
+        "title": "Computer Graphics",
+        "course_hours": "(3-0-3)",
+        "description": "This course introduces the input, construction, storage, retrieval, manipulation, alternation, and analysis of computer graphics objects, as well as graphics computer hardware, graphics primitives, two-dimensional and three-dimensional viewing and transformations, and basic modeling.",
+        "prerequisites": "CPSC 3175 with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 4148",
+        "title": "Theory of Computation",
+        "course_hours": "(3-0-3)",
+        "description": "This course explores the foundations of computation, including formal languages, automata, and computational models, emphasizing the principles, limits, and complexity of what can be computed.",
+        "prerequisites": "CPSC 4115 with a minimum grade of C or CPSC 5115U with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 4155",
+        "title": "Computer Architecture",
+        "course_hours": "(3-0-3)",
+        "description": "This course examines computer hardware, system software, and data concepts from a security perspective, emphasizing the design, organization, and operation of modern computing systems. It provides a foundation for understanding hardware-software interactions, memory and data management, and the principles behind emerging architectures.",
+        "prerequisites": "(CPSC 1302 with a minimum grade of C or CPSC 1302H with a minimum grade of C or CPSC 1302K with a minimum grade of C) and CPSC 2105 with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 4157",
+        "title": "Computer Networks",
+        "course_hours": "(3-0-3)",
+        "description": "This course explores advanced networking concepts and skills, with an emphasis on the design, implementation, and management of modern network technologies. It also addresses network reliability, routing and forwarding, mobility, security, and emerging trends in the field.",
+        "prerequisites": "CPSC 2108 with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 4175",
+        "title": "Software Engineering",
+        "course_hours": "(3-0-3)",
+        "description": "This course covers the fundamental principles of software engineering, emphasizing the methods, tools, and best practices used throughout the software development life cycle to create, maintain, and evolve reliable software systems.",
+        "prerequisites": "CPSC 3175 with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 4176",
+        "title": "Senior Software Engineering Project",
+        "course_hours": "(3-0-3)",
+        "description": "This course emphasizes a team-based approach to developing complex, real-world projects, guiding students through all phases of the software development life cycle with a focus on teamwork, collaboration, and effective communication.",
+        "prerequisites": "CPSC 4175 with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 4185",
+        "title": "Artificial Intelligence and Machine Learning",
+        "course_hours": "(3-0-3)",
+        "description": "This course introduces the fundamental concepts and techniques of artificial intelligence, emphasizing the design and application of intelligent systems to solve complex, real-world problems. It covers both the theoretical foundations and practical methodologies used to create AI solutions across diverse domains.",
+        "prerequisites": "CPSC 2108 with a minimum grade of C",
+        "restrictions": null
+    },
+    {
+        "course_code": "CPSC 4205",
+        "title": "IT Senior Capstone",
+        "course_hours": "(3-0-3)",
+        "description": "This capstone course for IT majors, taken in the final semester, focuses on a team project integrating knowledge and skills from prior IT courses.",
+        "prerequisites": null,
+        "restrictions": "Enrollment limited to Senior students."
+    },
+    {
+        "course_code": "CPSC 4505",
+        "title": "Undergraduate Research",
+        "course_hours": "(0-0-(1-6))",
+        "description": "Students work in conjunction with a faculty member to select a research topic, complete a written research proposal and execute a research plan. Students will prepare both written and oral presentations of their work and present their work at one or more local, regional or professional meetings, or submit their work for publication.",
+        "prerequisites": "CPSC 2108 with a minimum grade of C",
+        "restrictions": "Enrollment limited to students in the Department Prerequisite college."
+    },
+    {
+        "course_code": "CPSC 4555",
+        "title": "Selected Topics in Computer Science",
+        "course_hours": "((1-3)-0-(1-3))",
+        "description": "Study of topics of special interest in computer science, or directed experience in computer science by means of lecture, discussion, seminar, and research.",
+        "prerequisites": "CPSC 2108 with a minimum grade of C",
+        "restrictions": "Freshman or Sophomore students may not enroll."
+    },
+    {
+        "course_code": "CPSC 4698",
+        "title": "Internship",
+        "course_hours": "(0-0-(1-3))",
+        "description": "Work experience on an approved project supervised by a faculty member. May be repeated for a maximum of three credit hours. (S/U grading.)",
+        "prerequisites": null,
+        "restrictions": "Freshman or Sophomore students may not enroll."
+    },
+    {
+        "course_code": "CPSC 4899",
+        "title": "Independent Study",
+        "course_hours": "(3-0-3)",
+        "description": "Course project approved and supervised by a faculty member. May be taken only once for credit.",
+        "prerequisites": null,
+        "restrictions": "Freshman or Sophomore students may not enroll."
+    },
+    {
+        "course_code": "CPSC 6000",
+        "title": "Graduate Exit Examination in Computer Science",
+        "course_hours": "(0-0-0)",
+        "description": "This is a zero credit hour course that should be taken in the last semester prior to graduation. Students need to complete the exit exam, survey, and interview to satisfactorily complete the course. (S/U grading).",
+        "prerequisites": null,
+        "restrictions": "Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6103",
+        "title": "Computer Science Principles for Teachers",
+        "course_hours": "(3-0-3)",
+        "description": "This course introduces the AP Computer Science Principles (AP CSP) framework as well as tools and methods to teach such curriculum. Students will be exposed to the seven Computational Thinking Practices, the 6 big ideas as delineated by the framework, assessment methodology and tools to teach this curriculum. Topics include Computational Thinking practices, Creativity, Abstraction, Data and Information, Algorithms, Programming (using block-based programming languages), the Internet, and Global Impact.",
+        "prerequisites": null,
+        "restrictions": "Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6105",
+        "title": "Fundamental Principles of Computer Science",
+        "course_hours": "(3-0-3)",
+        "description": "Overview of basic concepts in computer science ranging from computer hardware components, interconnection network structures and communication protocols, analysis of computer algorithms to software systems and applications. May not be applied to a graduate computer science degree program. Need a B or better to show proficiency.",
+        "prerequisites": null,
+        "restrictions": "Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6106",
+        "title": "Fundamentals of Computer Programming and Data Structures",
+        "course_hours": "(3-0-3)",
+        "description": "Computer programming, declaration of variables, definition of abstract data types, data manipulation, conditional statements, loops, functions and routines, standard input/output control, file manipulation, object-oriented programming, and data structures. May not be applied to a graduate computer science degree program. Need a B or better to show proficiency.",
+        "prerequisites": null,
+        "restrictions": "Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6107",
+        "title": "Survey of Modeling and Simulation",
+        "course_hours": "(3-0-3)",
+        "description": "This course introduces the discipline of Modeling and Simulation by surveying its paradigms and methodologies as well as important and related disciplines. The Monte Carlo, continuous, and discrete event simulations are introduced as a foundation. Topics include input data analysis, model development, verification and validation, output data analysis, animation, and design and analysis of experiments using simulation software. The course requires knowledge of Calculus and Statistics.",
+        "prerequisites": null,
+        "restrictions": "Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6109",
+        "title": "Algorithms Analysis and Design",
+        "course_hours": "(3-0-3)",
+        "description": "The need for efficient algorithms arises in nearly every area of computer science. This course covers the modern theory of algorithms, focusing on the themes of efficient algorithms and intractable problems. The course introduces many of the techniques that apply broadly in the design of efficient algorithms, and studies their application in a wide range of application domains and computational models. Topics include Basic Data Structuring Problems, Recursion, Computational Complexity, Graph Algorithms, Greedy Algorithms, Dynamic Data Structures, Hashing, Approximation Algorithms, Linear programming, Parallel Algorithms and Novel Approaches to NP-Complete Problems. The course requires familiarity with Java Programming Language.",
+        "prerequisites": null,
+        "restrictions": "Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6114",
+        "title": "Applied Machine Learning",
+        "course_hours": "(3-0-3)",
+        "description": "This course offers a comprehensive introduction to machine learning, employing the Python programming language and relevant libraries. It covers a wide array of machine-learning approaches and advanced feature engineering techniques to improve data quality and interpretability for machine-learning applications. Furthermore, the course equips the students with an understanding of the far-reaching consequences and obligations associated with the advancement and utilization of AI technologies in our society.",
+        "prerequisites": null,
+        "restrictions": "Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6119",
+        "title": "Object-Oriented Development",
+        "course_hours": "(3-0-3)",
+        "description": "This course teaches object-oriented developing techniques and how to create advanced applications using classes, components, and objects. Fundamentals of developing client applications that include database access using server-level components. Topics include creating and managing objects, creating data services, testing, deploying and maintaining a component based solution.",
+        "prerequisites": null,
+        "restrictions": "Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6121",
+        "title": "Data Science and Big Data Analytics",
+        "course_hours": "(3-0-3)",
+        "description": "This course drives the student through the different stages of the Data Science process with an emphasis on Data Analytics, and its application to Big Data in particular. The course presents the infrastructure and technology needed to carry out NoSQL and big data analytics, in terms of both storage and processing. Students will gain a solid understanding of the various NoSQL database types, distinguishing their specific use-cases and advantages in the broader data ecosystem.  \nThe course presents relevant (Big) Data Analytics tools in the Cloud and demonstrates how the Cloud constitutes a major technology enabler in the Big Data realm, for instance HDFS (Hadoop Distributed File Systems) and Spark.",
+        "prerequisites": "CPSC 6114 with a minimum grade of C",
+        "restrictions": "Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6124",
+        "title": "Deep Learning",
+        "course_hours": "(3-0-3)",
+        "description": "This course provides students with a comprehensive understanding of deep learning methodologies and their practical applications. The curriculum covers a range of topics, including in-depth explorations of various deep neural network architectures, their underlying computations, and the skills needed to construct and train deep neural networks. Students will also gain hands-on experience in implementing deep learning models for diverse tasks and discuss ethics in machine learning systems.",
+        "prerequisites": "CPSC 6114 with a minimum grade of C",
+        "restrictions": "Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6125",
+        "title": "Operating Systems Design and Implementation",
+        "course_hours": "(3-0-3)",
+        "description": "This course provides an overview of the issues in the design and functioning of operating systems, including the synchronization of concurrent activity in both centralized and distributed systems. This course’s main topics are deadlocks, scheduling, performance analysis, operation system design, and memory systems including distributed file systems.",
+        "prerequisites": null,
+        "restrictions": "Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6127",
+        "title": "Contemporary Issues in Database Management Systems",
+        "course_hours": "(3-0-3)",
+        "description": "This course provides an overview of modern database management systems and issues relating to these systems. Topics include developing a logical model, deriving the physical design, creating data services, creating a physical database, and maintaining a database in a variety of environments.",
+        "prerequisites": null,
+        "restrictions": "Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6136",
+        "title": "Human Aspects of Cybersecurity",
+        "course_hours": "(3-0-3)",
+        "description": "This course examines the human behavioral and psychological aspects that create a complex system of cybercrimes and ethical and moral violations in the Internet. Students analyze various cybercrimes and cyber incidents that impact human life, and discuss how the human factor can be controlled or manipulated in order to create a more secure cyberspace.",
+        "prerequisites": "CPSC 6126 with a minimum grade of C",
+        "restrictions": "Enrollment limited to students major in Cybersecurity Management or Applied Computer Science. Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6138",
+        "title": "Mobile Systems and Applications",
+        "course_hours": "(3-0-3)",
+        "description": "This course explores the post-desktop model of computing that makes use of mobile systems. Topics include wireless communication protocols, mobile data and power management, context awareness, privacy and security, mobile gaming, and the mobile application development process.",
+        "prerequisites": "CPSC 6119 with a minimum grade of C",
+        "restrictions": "Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6147",
+        "title": "Data Visualization and Presentation",
+        "course_hours": "(3-0-3)",
+        "description": "This course introduces the principles of computer-based visualization including data representation, scalar, and vector visualization as well as image, volume and information visualization. The large amount of data that is generated in modern systems offers an opportunity to use computer-based visualization for analysis. Students will create their own data visualizations and learn how to use data visualization tools.",
+        "prerequisites": null,
+        "restrictions": "Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6157",
+        "title": "Network and Cloud Management",
+        "course_hours": "(3-0-3)",
+        "description": "This course is specifically designed to focus on the protocols, skills and tools needed to support the development and delivery of advanced network and cloud services over the Internet. This graduate-level course is also focused on mastering technical details in a number of areas of advanced networking through reading and hands-on activities of important research topics in the field. The topics covered in this course include 1) network and cloud basics; 2) protocols; 3) network and cloud security; 4) mobile computing; 5) software-defined networking; 6) network and cloud management; 7) data center management; 8) big data analytics and cloud.",
+        "prerequisites": null,
+        "restrictions": "Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6175",
+        "title": "Web Engineering and Technologies",
+        "course_hours": "(3-0-3)",
+        "description": "This course teaches the fundamentals of Web technologies and Web site development. This course covers many open technologies including XML and its related standards.",
+        "prerequisites": null,
+        "restrictions": "Enrollment limited to students major in Applied Computer Science. Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6177",
+        "title": "Software Design and Development",
+        "course_hours": "(3-0-3)",
+        "description": "This course emphasizes the practice and quality assurance of the software engineering process. Studies and practices skills, methods, and tools adopted at each phase of the software development life cycle including requirements engineering, design, development, testing, deployment, and maintenance. Other subjects include software testing and quality assurance with an emphasis on the role of testing in the software development life cycle. It covers commonly used software testing strategies and test design techniques.",
+        "prerequisites": null,
+        "restrictions": "Enrollment limited to students major in Applied Computer Science. Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6179",
+        "title": "Software Project Planning and Management",
+        "course_hours": "(3-0-3)",
+        "description": "This course centers on the practice of a software engineering process and includes topics of life-cycle models for software development. It addresses issues associated with the successful management of software development including planning, scheduling, tracking, cost and size, measurement, estimating, risk management, configuration, management quality, and engineering and process improvement.",
+        "prerequisites": null,
+        "restrictions": "Enrollment limited to students major in Applied Computer Science. Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6185",
+        "title": "Intelligent Systems",
+        "course_hours": "(3-0-3)",
+        "description": "This course equips students with a comprehensive understanding of Artificial Intelligence (AI) and its practical applications, emphasizing the capacity to address complex real-world challenges that defy conventional algorithmic solutions. It delves into the core theories underpinning methodologies for crafting intelligent systems, encompassing the handling of uncertainty, learning from experience, and the emulation of problem-solving strategies observed in nature.",
+        "prerequisites": null,
+        "restrictions": "Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6555",
+        "title": "Selected Topics in Computer Science",
+        "course_hours": "(3-0-3)",
+        "description": "This course covers topics of special interest in the field of computing. Course may be repeated for credit with department approval and a different topic.",
+        "prerequisites": null,
+        "restrictions": "Enrollment limited to students major in Applied Computer Science. Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6698",
+        "title": "Graduate Internship in Computer Science",
+        "course_hours": "(0-15-3)",
+        "description": "This course provides an opportunity to graduate students to apply knowledge gained in academic courses to the real world. Work undertaken during an internship must be relevant to the student’s program of study. The internship needs to be approved by the department chair. (S/U grading).",
+        "prerequisites": null,
+        "restrictions": "Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6899",
+        "title": "Independent Study in Computer Science",
+        "course_hours": "(0-0-3)",
+        "description": "This is a project-based course to allow the student to explore a topic of their interest in computer science. The project has to be approved and supervised by an appropriate member of the graduate faculty.",
+        "prerequisites": null,
+        "restrictions": "Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6985",
+        "title": "Research and Thesis",
+        "course_hours": "(0-0-3)",
+        "description": "This course is required by all students completing the thesis option of the MS in Applied Computer Science. It involves completion of a research project and defense of the project thesis in adherence to the School of Computer Science MS thesis policy. The project is to be designed in consultation with a thesis advisor who is a member of the graduate faculty of the School of Computer Science.   (S/U grading)",
+        "prerequisites": null,
+        "restrictions": "Enrollment limited to students major in Cybersecurity Management or Applied Computer Science. Enrollment is limited to Graduate Level level students."
+    },
+    {
+        "course_code": "CPSC 6986",
+        "title": "Thesis Defense",
+        "course_hours": "(0-0-0)",
+        "description": "Department approval is required for this course. A satisfactory grade in the course indicates a successful oral defense of the thesis, the completion of edits and approval by the advisor or committee, and submission to the library. Degree candidates must be enrolled during the semester of their defense. S/U grading.",
+        "prerequisites": null,
+        "restrictions": "Enrollment limited to students in the Department Prerequisite college."
+    }
+]
