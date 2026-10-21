@@ -181,15 +181,18 @@ def main():
 			"Usage: python src/InputValidator.py "
 			"<degreeworks.pdf> <course_catalog.json> <course_offerings.json>"
 		)
-		sys.exit(1)
+		return 1
 
 	try:
 		validate_inputs(sys.argv[1], sys.argv[2], sys.argv[3])
+		return 0
 
 	# Display validation or file-related errors and exit unsuccessfully.
 	except (ValueError, FileNotFoundError, OSError) as error:
 		print(f"Input validation failed: {error}")
-		sys.exit(1)
+		return 1
+
 
 if __name__ == "__main__":
-	sys.exit(main())
+	result = main()
+	print(f"Main returned: {result}")

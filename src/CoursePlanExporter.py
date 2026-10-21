@@ -142,7 +142,7 @@ def main():
 			"Usage: python src/CoursePlanExporter.py "
 			"<recommended_plan.json> <output.xlsx>"
 		)
-		sys.exit(1)
+		return 1
 
 	input_path, output_path = sys.argv[1:3]
 	try:
@@ -161,7 +161,8 @@ def main():
 	# Print the error message and exit with a nonzero status code.
 	except (OSError, json.JSONDecodeError, ValueError) as error:
 		print(f"Could not export course plan: {error}")
-	sys.exit(1)
+		return 1
 
 if __name__ == "__main__":
-	main()
+	result = main()
+	print(f"Main returned: {result}")
