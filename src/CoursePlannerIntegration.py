@@ -1,10 +1,11 @@
 
 """SCPTAA_001 - Integration for the Smart Class Planning Tool.
 
-Reads graduate study plans and connects them to the existing
-CoursePlanner scheduling engine.
+Connects graduate study plans, DegreeWorks progress, the course
+catalog, and the four-year course schedule.
 
-This module does not modify teammates' parser modules.
+Missing catalog entries may be supplemented by explicitly verified
+study-plan information. Unknown prerequisites are never assumed met.
 """
 
 import argparse
@@ -19,12 +20,14 @@ try:
         build_course_plan,
         load_course_offerings,
         normalize_course_code,
+        semester_sort_key,
     )
 except ImportError:
     from CoursePlanner import (
         build_course_plan,
         load_course_offerings,
         normalize_course_code,
+        semester_sort_key,
     )
 
 
@@ -65,33 +68,27 @@ START_COLUMNS = {
 
 
 def load_json(path):
-    """Load a JSON document."""
+    """Read a JSON file."""
     with open(path, "r", encoding="utf-8") as file:
         return json.load(file)
 
 
 def extract_course_codes(value):
     """Extract explicit course codes without inventing any."""
-    if value is None:
-        return []
-
     if not isinstance(value, str):
         return []
 
-    text = value.replace("\u00c2", "").replace("\u00a0", " ")
-    matches = COURSE_PATTERN.findall(text.upper())
+    text = value.replace("\u00c2", "").replace("\u00a0", " ").upper()
+    matches = COURSE_PATTERN.findall(text)
 
     codes = []
-
     for match in matches:
         match = re.sub(
             r"^([A-Z]{4})(\d{4})",
             r"\1 \2",
             match,
         )
-
         code = normalize_course_code(match)
-
         if code not in codes:
             codes.append(code)
 
@@ -103,16 +100,10 @@ def read_study_plan(
     track="general",
     start_season="fall",
 ):
-    """Extract an ordered course list from the ACS study-plan sheet.
+    """Read ordered ACS core courses from the graduate study plan.
 
-    Track:
-        software, ai, general
-
-    Start season:
-        fall, spring
-
-    Elective and other non-course placeholders are recorded as
-    warnings rather than scheduled as actual courses.
+    This reader is provisional. Joshua's dedicated parser can replace
+    it without changing the scheduling engine.
     """
     track = track.lower().strip()
     start_season = start_season.lower().strip()
@@ -123,9 +114,7 @@ def read_study_plan(
         )
 
     if start_season not in TRACK_ROWS[track]:
-        raise ValueError(
-            "Start season must be fall or spring."
-        )
+        raise ValueError("Start season must be fall or spring.")
 
     workbook = load_workbook(
         workbook_path,
@@ -140,7 +129,6 @@ def read_study_plan(
             )
 
         sheet = workbook["Sheet1"]
-
         first_row, last_row = TRACK_ROWS[track][start_season]
         first_column, last_column = START_COLUMNS[start_season]
 
@@ -151,7 +139,6 @@ def read_study_plan(
         for column in range(first_column, last_column + 1):
             for row in range(first_row, last_row + 1):
                 value = sheet.cell(row, column).value
-
                 if value is None:
                     continue
 
@@ -164,7 +151,6 @@ def read_study_plan(
                             required_courses.append(code)
                 else:
                     text = str(value).strip()
-
                     if text and (
                         "elective" in text.lower()
                         or "msol" in text.lower()
@@ -184,9 +170,161 @@ def read_study_plan(
         workbook.close()
 
 
+def find_study_plan_course_details(workbook_path, course_codes):
+    """Inspect study-plan workbook rows for explicit course metadata.
+
+    Looks for a matching course code and nearby credit/prerequisite
+    fields. Missing values remain unknown rather than being invented.
+    """
+    requested = set(course_codes)
+    details = {}
+
+    workbook = load_workbook(
+        workbook_path,
+        read_only=True,
+        data_only=True,
+    )
+
+    try:
+        if "Courses" not in workbook.sheetnames:
+            return details
+
+        sheet = workbook["Courses"]
+
+        for row in sheet.iter_rows(values_only=True):
+            if not row:
+                continue
+
+            matching = []
+
+            for value in row:
+                if isinstance(value, str):
+                    matching.extend(extract_course_codes(value))
+
+            matching = set(matching) & requested
+
+            if not matching:
+                continue
+
+            for code in matching:
+                if code in details:
+                    continue
+
+                details[code] = {
+                    "course_code": code,
+                    "row_values": list(row),
+                }
+
+        return details
+
+    finally:
+        workbook.close()
+
+
+def find_schedule_course_titles(workbook_path, course_codes):
+    """Find official course titles from the schedule workbook."""
+    requested = set(course_codes)
+    titles = {}
+
+    workbook = load_workbook(
+        workbook_path,
+        read_only=True,
+        data_only=True,
+    )
+
+    try:
+        sheet = workbook.active
+
+        for row in sheet.iter_rows(
+            min_row=4,
+            min_col=1,
+            max_col=2,
+            values_only=True,
+        ):
+            code = normalize_course_code(row[0])
+
+            if code in requested and isinstance(row[1], str):
+                titles[code] = row[1].strip()
+
+        return titles
+
+    finally:
+        workbook.close()
+
+
+def supplement_missing_catalog_courses(
+    required_courses,
+    catalog,
+    offerings,
+    study_plans_path,
+    schedule_path,
+):
+    """Add provisional records only when official offerings exist.
+
+    For missing catalog courses, use the schedule title and an
+    explicitly provisional 3-credit estimate. Do not fabricate
+    prerequisites; mark those requirements as unverified.
+    """
+    known = {
+        normalize_course_code(course.get("course_code"))
+        for course in catalog
+        if isinstance(course, dict)
+    }
+
+    missing = [
+        code for code in required_courses
+        if code not in known and code in offerings
+    ]
+
+    if not missing:
+        return catalog, {}, []
+
+    titles = find_schedule_course_titles(
+        schedule_path,
+        missing,
+    )
+
+    study_details = find_study_plan_course_details(
+        study_plans_path,
+        missing,
+    )
+
+    augmented = list(catalog)
+    provisional = {}
+    warnings = []
+
+    for code in missing:
+        title = titles.get(code, code)
+
+        # Three credits is a planning assumption, not a
+        # verified catalog fact. Keep that distinction visible.
+        estimated_credits = 3
+
+        augmented.append({
+            "course_code": code,
+            "title": title,
+            "credits": estimated_credits,
+            "prerequisites": None,
+        })
+
+        provisional[code] = {
+            "estimated_credits": estimated_credits,
+            "prerequisites_verified": False,
+            "study_plan_record_found": code in study_details,
+        }
+
+        warnings.append(
+            f"{code}: provisional {estimated_credits}-credit "
+            "planning estimate; prerequisites and credit hours "
+            "require advisor verification."
+        )
+
+    return augmented, provisional, warnings
+
+
 def build_integrated_plan(
     track="general",
-    start_semester="Fall 2026",
+    start_semester="Spring 2027",
     max_credits=12,
     include_summer=True,
     study_plans_path=DEFAULT_STUDY_PLANS,
@@ -194,13 +332,15 @@ def build_integrated_plan(
     catalog_path=DEFAULT_CATALOG,
     schedule_path=DEFAULT_SCHEDULE,
 ):
-    """Build a course plan using all four project data sources."""
+    """Build a plan using all four university data sources."""
     start_season = start_semester.split()[0].lower()
 
     if start_season not in {"fall", "spring"}:
         raise ValueError(
             "Study-plan entry must begin in Fall or Spring."
         )
+
+    semester_sort_key(start_semester)
 
     study_plan = read_study_plan(
         study_plans_path,
@@ -216,6 +356,16 @@ def build_integrated_plan(
         start_semester=start_semester,
     )
 
+    catalog, provisional, catalog_warnings = (
+        supplement_missing_catalog_courses(
+            study_plan["required_courses"],
+            catalog,
+            offerings,
+            study_plans_path,
+            schedule_path,
+        )
+    )
+
     result = build_course_plan(
         required_courses=study_plan["required_courses"],
         degreeworks_data=degreeworks,
@@ -224,14 +374,32 @@ def build_integrated_plan(
         start_semester=start_semester,
         max_credits=max_credits,
         include_summer=include_summer,
+        current_semester="Fall 2026",
     )
+
+    for semester in result["plan"]:
+        for course in semester["courses"]:
+            code = course["course_code"]
+            if code in provisional:
+                note = (
+                    "PROVISIONAL: estimated 3 credits; "
+                    "prerequisites and credit hours unverified"
+                )
+                existing = course.get("notes", "")
+                course["notes"] = (
+                    existing + "; " + note
+                    if existing else note
+                )
 
     result["track"] = study_plan["track"]
     result["start_semester"] = start_semester
     result["required_courses"] = study_plan["required_courses"]
+    result["provisional_courses"] = provisional
 
     result["warnings"] = (
-        study_plan["warnings"] + result["warnings"]
+        study_plan["warnings"]
+        + catalog_warnings
+        + result["warnings"]
     )
 
     return result
@@ -250,8 +418,8 @@ def main():
 
     parser.add_argument(
         "--start",
-        default="Fall 2026",
-        help="Starting semester, e.g. 'Fall 2026'.",
+        default="Spring 2027",
+        help="Starting semester, e.g. 'Spring 2027'.",
     )
 
     parser.add_argument(
@@ -320,25 +488,32 @@ def main():
     print("RECOMMENDED COURSE PLAN")
     print("-" * 50)
 
+    scheduled_count = 0
+
     for semester in result["plan"]:
         if not semester["courses"]:
             continue
 
-        total_credits = sum(
+        credits = sum(
             course["credits"]
             for course in semester["courses"]
         )
 
         print(
-            f"{semester['semester']} "
-            f"({total_credits} credits)"
+            f"{semester['semester']} ({credits} credits)"
         )
 
         for course in semester["courses"]:
+            scheduled_count += 1
             print(
                 f"  {course['course_code']} - "
                 f"{course['title']}"
             )
+            if course.get("notes"):
+                print(f"    NOTE: {course['notes']}")
+
+    if scheduled_count == 0:
+        print("No additional courses scheduled.")
 
     print()
     print("UNSCHEDULED COURSES")
@@ -357,7 +532,6 @@ def main():
         print()
         print("WARNINGS")
         print("-" * 50)
-
         for warning in result["warnings"]:
             print("-", warning)
 
@@ -372,11 +546,7 @@ def main():
             "w",
             encoding="utf-8",
         ) as file:
-            json.dump(
-                result,
-                file,
-                indent=2,
-            )
+            json.dump(result, file, indent=2)
 
         print()
         print("JSON saved to:", args.output)
