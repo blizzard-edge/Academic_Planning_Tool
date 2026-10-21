@@ -46,42 +46,42 @@ def normalize_plan(data):
 			"Plan JSON must be a list of semester entries or an object with a 'plan' list."
 		)
 
-		# Validate each semester entry before attempting to export the workbook.
-		for index, semester in enumerate(data):
-			# Each semester must be represented by a dictionary.
-			if not isinstance(semester, dict):
-				raise ValueError(f"Semester entry {index + 1} must be an object.")
+	# Validate each semester entry before attempting to export the workbook.
+	for index, semester in enumerate(data):
+		# Each semester must be represented by a dictionary.
+		if not isinstance(semester, dict):
+			raise ValueError(f"Semester entry {index + 1} must be an object.")
 
-			# Ensure that every semester has a valid string name.
-			if not isinstance(semester.get("semester"), str):
-				raise ValueError(f"Semester entry {index + 1} needs a semester name.")
+		# Ensure that every semester has a valid string name.
+		if not isinstance(semester.get("semester"), str):
+			raise ValueError(f"Semester entry {index + 1} needs a semester name.")
 
-			# Ensure that each semester contains a list of courses.
-			if not isinstance(semester.get("courses"), list):
+		# Ensure that each semester contains a list of courses.
+		if not isinstance(semester.get("courses"), list):
+			raise ValueError(
+				f"Semester '{semester['semester']}' must contain a courses list."
+			)
+
+		# Check that every course is a dictionary with a course code.
+		for course in semester["courses"]:
+			if not isinstance(course, dict) or not course.get("course_code"):
 				raise ValueError(
-					f"Semester '{semester['semester']}' must contain a courses list."
+					f"Every course in '{semester['semester']}' needs a course_code."
 				)
-
-			# Check that every course is a dictionary with a course code.
-			for course in semester["courses"]:
-				if not isinstance(course, dict) or not course.get("course_code"):
-					raise ValueError(
-						f"Every course in '{semester['semester']}' needs a course_code."
-					)
-		return data
+	return data
 
 def export_course_plan(plan, output_path):
 	"""Write one worksheet with courses grouped by semester."""
 	plan = normalize_plan(plan)
 	workbook = Workbook()
 	sheet = workbook.active
-		sheet.title = "Recommended Plan"
+	sheet.title = "Recommended Plan"
 
 	sheet.append(["Recommended Course Plan"])
 	sheet["A1"].font = Font(bold=True, size=16)
 	sheet.append(["Semester", "Course Code", "Course Title", "Credits", "Notes"])
 
-		for cell in sheet[2]:
+	for cell in sheet[2]:
 		cell.font = Font(bold=True, color="FFFFFF")
 		cell.fill = PatternFill("solid", fgColor="1F4E78")
 		cell.alignment = Alignment(horizontal="center")
@@ -145,23 +145,23 @@ def main():
 		sys.exit(1)
 
 	input_path, output_path = sys.argv[1:3]
-		try:
-			# Verify that the recommended course plan file exists.
-			if not os.path.isfile(input_path):
-				raise FileNotFoundError(f"Recommended plan not found: {input_path}")
+	try:
+		# Verify that the recommended course plan file exists.
+		if not os.path.isfile(input_path):
+			raise FileNotFoundError(f"Recommended plan not found: {input_path}")
 
-			# Open the input file and parse its contents as JSON.
-			with open(input_path, "r", encoding="utf-8") as file:
-				data = json.load(file)
+		# Open the input file and parse its contents as JSON.
+		with open(input_path, "r", encoding="utf-8") as file:
+			data = json.load(file)
 
 		export_course_plan(data, output_path)
 		print(f"Excel course plan saved to {output_path}")
 
-		# Handle file access errors, malformed JSON, and invalid plan structures.
-		# Print the error message and exit with a nonzero status code.
-		except (OSError, json.JSONDecodeError, ValueError) as error:
-			print(f"Could not export course plan: {error}")
-		sys.exit(1)
+	# Handle file access errors, malformed JSON, and invalid plan structures.
+	# Print the error message and exit with a nonzero status code.
+	except (OSError, json.JSONDecodeError, ValueError) as error:
+		print(f"Could not export course plan: {error}")
+	sys.exit(1)
 
 if __name__ == "__main__":
 	main()
