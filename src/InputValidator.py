@@ -23,6 +23,7 @@ For the validator, only the season is needed.
 
 import json
 import os
+import re
 import sys
 
 # Imports PdfReader to open PDF files and extract their text
@@ -31,6 +32,7 @@ from pypdf import PdfReader
 # Defines the valid academic seasons accepted in the course offering schedule.
 # Lowercase values allow season comparisons to ignore capitalization.
 VALID_SEASONS = {"spring", "summer", "fall"}
+FULL_TERM_PATTERN = re.compile(r"^(Spring|Summer|Fall)(?:\s+\d{4})?$", re.IGNORECASE)
 
 def validate_pdf(path):
 	"""Confirm the DegreeWorks input exists, is a PDF, and is readable."""
@@ -54,11 +56,11 @@ def validate_pdf(path):
 
 		# Attempt extraction so encrypted/corrupt/unreadable files are caught early.
 		extracted_text = "\n".join(page.extract_text() or "" for page in reader.pages)
-			if not extracted_text.strip():
-				raise ValueError(
-					"No selectable text was found in the DegreeWorks PDF. "
-					"It may be scanned; OCR may be required."
-				)
+		if not extracted_text.strip():
+			raise ValueError(
+				"No selectable text was found in the DegreeWorks PDF. "
+				"It may be scanned; OCR may be required."
+			)
 
 	# Convert PDF-reading errors into a clear validation error.
 	# The original exception is preserved as the cause for debugging.
@@ -94,25 +96,25 @@ def load_json(path, description):
 
 def validate_catalog(catalog):
 	"""Check that the catalog is a non-empty list of usable course records."""
-		if not isinstance(catalog, list) or not catalog:
+	if not isinstance(catalog, list) or not catalog:
 			raise ValueError("Course catalog JSON must contain a non-empty list.")
 
-		# Collect validation errors so multiple problems can be reported together.
-		errors = []
+	# Collect validation errors so multiple problems can be reported together.
+	errors = []
 
-		# Examine each course record and its required fields.
-		for index, course in enumerate(catalog):
-			if not isinstance(course, dict):
-				errors.append(f"Catalog record {index + 1} is not an object.")
-				continue
+	# Examine each course record and its required fields.
+	for index, course in enumerate(catalog):
+		if not isinstance(course, dict):
+			errors.append(f"Catalog record {index + 1} is not an object.")
+			continue
 
-			# Ensure the course code is a non-empty string.
-			if not isinstance(course.get("course_code"), str) or not course["course_code"].strip():
-				errors.append(f"Catalog record {index + 1} has no valid course_code.")
+		# Ensure the course code is a non-empty string.
+		if not isinstance(course.get("course_code"), str) or not course["course_code"].strip():
+			errors.append(f"Catalog record {index + 1} has no valid course_code.")
 
-			# Ensure the course title is also a non-empty string.
-			if not isinstance(course.get("title"), str) or not course["title"].strip():
-				errors.append(f"Catalog record {index + 1} has no valid title.")
+		# Ensure the course title is also a non-empty string.
+		if not isinstance(course.get("title"), str) or not course["title"].strip():
+			errors.append(f"Catalog record {index + 1} has no valid title.")
 
 		if errors:
 			raise ValueError("Invalid course catalog:\n- " + "\n- ".join(errors))
@@ -179,15 +181,18 @@ def main():
 			"Usage: python src/InputValidator.py "
 			"<degreeworks.pdf> <course_catalog.json> <course_offerings.json>"
 		)
-		sys.exit(1)
+		return 1
 
 	try:
 		validate_inputs(sys.argv[1], sys.argv[2], sys.argv[3])
+		return 0
 
 	# Display validation or file-related errors and exit unsuccessfully.
 	except (ValueError, FileNotFoundError, OSError) as error:
 		print(f"Input validation failed: {error}")
-		sys.exit(1)
+		return 1
+
 
 if __name__ == "__main__":
-	main()
+	result = main()
+	print(f"Main returned: {result}")

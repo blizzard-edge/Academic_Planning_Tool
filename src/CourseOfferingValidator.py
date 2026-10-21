@@ -40,9 +40,10 @@ def season_of(term):
 def is_offered(course_code, semester, offering_schedule):
 	"""Return whether a course is offered in the specified semester."""
 	terms = offering_schedule.get(course_code)
+	
 	# Treat missing or incorrectly formatted offering data as unavailable.
 	if not isinstance(terms, list):
-        return False
+		return False
 
 	# Normalize the target season to support season-only offering entries.
 	target_season = season_of(semester)
@@ -50,14 +51,14 @@ def is_offered(course_code, semester, offering_schedule):
 		if not isinstance(term, str):
 			continue
 
-			# A season-only entry (e.g. 'Fall') applies to every year.
-			if term.strip().lower() == target_season:
-				return True
+		# A season-only entry (e.g. 'Fall') applies to every year.
+		if term.strip().lower() == target_season:
+			return True
 
-			# A full-term entry (e.g. 'Fall 2026') must match the full term.
-			if term.strip().lower() == semester.strip().lower():
-				return True
-			return False
+		# A full-term entry (e.g. 'Fall 2026') must match the full term.
+		if term.strip().lower() == semester.strip().lower():
+			return True
+	return False
 
 def validate_and_adjust_plan(plan, offering_schedule):
 	"""
@@ -76,27 +77,26 @@ def validate_and_adjust_plan(plan, offering_schedule):
 		raise ValueError("The offering schedule must be a dictionary.")
 
 	adjusted_plan = []
-		for semester_entry in plan:
-			# Each semester must be represented by a dictionary.
-			if not isinstance(semester_entry, dict):
-				raise ValueError("Each semester entry must be an object.")
+	
+	for semester_entry in plan:
+		# Each semester must be represented by a dictionary.
+		if not isinstance(semester_entry, dict):
+			raise ValueError("Each semester entry must be an object.")
 
-			# Every semester entry must identify its semester.
-			if not isinstance(semester_entry.get("semester"), str):
-				raise ValueError("Each semester entry needs a semester string.")
+		# Every semester entry must identify its semester.
+		if not isinstance(semester_entry.get("semester"), str):
+			raise ValueError("Each semester entry needs a semester string.")
 
-			# Courses must be provided as a list for each semester.
-			if not isinstance(semester_entry.get("courses"), list):
-				raise ValueError(
-					f"{semester_entry.get('semester')}: courses must be a list."
-				)
+		# Courses must be provided as a list for each semester.
+		if not isinstance(semester_entry.get("courses"), list):
+			raise ValueError(
+				f"{semester_entry.get('semester')}: courses must be a list."
+			)
 
-				# Copy the semester entry and its course list to avoid modifying
-				# the original plan's course lists during validation.
-				adjusted_plan.append({
-					**semester_entry,
-						"courses": list(semester_entry["courses"])
-					})
+		# Copy the semester entry and list so validation does not mutate the caller's plan
+		copied_entry = dict(semester_entry)
+		copied_entry["courses"] = [dict(course) if isinstance(course, dict) else course for course in semester_entry["courses"]]
+		adjusted_plan.append(copied_entry)
 
 		# Store unresolved availability issues and successful course moves separately.
 		conflicts = []
@@ -115,6 +115,8 @@ def validate_and_adjust_plan(plan, offering_schedule):
 						"semester": current_semester,
 						"reason": "Course entry is missing a course_code."
 					})
+					# Keep malformed entries in the plan for visibility.
+					remaining_courses.append(course)
 					continue
 
 				# Remove surrounding whitespace from the course code before lookup.
@@ -138,18 +140,18 @@ def validate_and_adjust_plan(plan, offering_schedule):
 						"reason": (
 							"Course is not offered in the assigned semester and no "
 							"later available semester exists in the supplied plan."
-					)
-				})
+						)
+					})
+				
+					# Keep the course in the plan so it is not silently lost.
+					remaining_courses.append(course)
 
-				# Keep the course in the plan so it is not silently lost.
-				remaining_courses.append(course)
-
-				else:
+				else: 
 					destination_semester = adjusted_plan[destination]["semester"]
 					adjusted_plan[destination]["courses"].append(course)
 
 					# Record the change so it can be included in the output report.
-						adjustments.append({
+					adjustments.append({
 						"course_code": code,
 						"from_semester": current_semester,
 						"to_semester": destination_semester
@@ -210,28 +212,28 @@ def main():
 			json.dump(output, file, indent=4, ensure_ascii=False)
 
 		print(f"Saved validated plan to {output_path}")
-			for adjustment in adjustments:
-				print(
-					f"Moved {adjustment['course_code']}: "
-					f"{adjustment['from_semester']} -> {adjustment['to_semester']}"
+		for adjustment in adjustments:
+			print(
+				f"Moved {adjustment['course_code']}: "
+				f"{adjustment['from_semester']} -> {adjustment['to_semester']}"
+		)
+
+		# Display each unresolved conflict and its reason.
+		for conflict in conflicts:
+			print(
+				f"CONFLICT: {conflict['course_code']} in {conflict['semester']}: "
+				f"{conflict['reason']}"
 			)
 
-			# Display each unresolved conflict and its reason.
-			for conflict in conflicts:
-				print(
-					f"CONFLICT: {conflict['course_code']} in {conflict['semester']}: "
-					f"{conflict['reason']}"
-				)
+		# Use exit code 2 to indicate that validation finished
+		# but one or more conflicts still need attention.
+		if conflicts:
+			print(f"Validation completed with {len(conflicts)} unresolved conflict(s).")
+			sys.exit(2)
 
-			# Use exit code 2 to indicate that validation finished
-			# but one or more conflicts still need attention.
-			if conflicts:
-				print(f"Validation completed with {len(conflicts)} unresolved conflict(s).")
-				sys.exit(2)
-
-			# Exit with code 0 when no unresolved conflicts remain.
-			print("Validation completed without conflicts.")
-			sys.exit(0)
+		# Exit with code 0 when no unresolved conflicts remain.
+		print("Validation completed without conflicts.")
+		sys.exit(0)
 
 	# Handle missing input files and other file access errors.
 	except FileNotFoundError as exc:
@@ -247,8 +249,3 @@ def main():
 	except Exception as exc:
 		print(f"Unexpected error: {exc}", file=sys.stderr)
 		sys.exit(1)
-
-# Run main() only when this file is executed directly,
-# not when it is imported as a module by another Python file.
-if __name__ == "__main__":
-	main()
