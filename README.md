@@ -1,4 +1,4 @@
-﻿# Smart Class Planning Tool for Academic Advising
+# Smart Class Planning Tool for Academic Advising
 
 A Python-based academic planning project for Columbus State University.
 
@@ -41,6 +41,18 @@ The planning workflow uses these files:
 The DegreeWorks JSON contains student information and must remain local.
 It is excluded from Git tracking.
 
+## Prepare Student Data
+
+Export your DegreeWorks audit as a PDF, then run:
+
+    python src/DegreeWorksParser.py "path\to\your_degreeworks.pdf"
+
+This creates `data/degree_works_info.json`, which stays local and is
+excluded from Git. Use only your own or authorized student records.
+
+Optional: refresh the course catalog:
+
+    python src/CourseCatalogRetriever.py
 ## Run the Course Planner
 
 The course planner is currently developed in PR #4 on the
