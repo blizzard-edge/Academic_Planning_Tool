@@ -3,8 +3,10 @@ local_test_data/
 
 # Python cache files
 __pycache__/
-*.pycdata/degree_works_info.json
+*.pyc
+data/degree_works_info.json
 data/*degreeworks*.json
 data/*DegreeWorks*.json
 outputs/
 .venv/
+
