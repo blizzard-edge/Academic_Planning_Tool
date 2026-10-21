@@ -1,3 +1,4 @@
+
 from pypdf import PdfReader
 import re
 import sys
@@ -42,15 +43,15 @@ def parse_courses(text):
 
     # Find actual course records with grades/statuses.
     course_pattern = re.compile(
-        r"\b([A-Z]{4})\s+(\d{4})\s+(.+?)\s+"
-        r"(CURR|A|B|C|D|F)\s+\(?(\d+)\)?\s+"
+        r"\b([A-Z]{4})\s+(\d{4}[A-Z]?)\s+(.+?)\s+"
+        r"(CURR|[ABCDF][+-]?)\s+\(?(\d+)\)?\s+"
         r"(Spring|Summer|Fall)\s+(\d{4})",
         re.IGNORECASE
     )
 
     for match in course_pattern.finditer(text):
         subject = match.group(1).upper()
-        number = match.group(2)
+        number = match.group(2).upper()
         title = match.group(3).strip()
         grade = match.group(4).upper()
         credits = int(match.group(5))
@@ -77,13 +78,13 @@ def parse_courses(text):
     # DegreeWorks can list required courses before the actual course record.
     # Find those requirement-style entries.
     requirement_pattern = re.compile(
-        r"\b([A-Z]{4})\s+(\d{4})\s*-\s*([^\n]+)",
+        r"\b([A-Z]{4})\s+(\d{4}[A-Z]?)\s*-\s*([^\n]+)",
         re.IGNORECASE
     )
 
     for match in requirement_pattern.finditer(text):
         subject = match.group(1).upper()
-        number = match.group(2)
+        number = match.group(2).upper()
         title = match.group(3).strip()
 
         course_code = f"{subject} {number}"
