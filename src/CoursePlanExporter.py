@@ -133,8 +133,8 @@ def export_course_plan(plan, output_path):
 		output_dir = os.path.dirname(output_path)
 		if output_dir:
 			os.makedirs(output_dir, exist_ok=True)
-		workbook.save(output_path)
-		return output_path
+	workbook.save(output_path)
+	return output_path
 
 def main():
 	if len(sys.argv) != 3:
