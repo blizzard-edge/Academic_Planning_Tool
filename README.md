@@ -28,7 +28,7 @@ The project includes:
 - Course offering and input validation
 - Excel course plan export
 
-The current working workflow uses command-line modules. A unified application controller in `src/Main.py` has not yet been implemented.
+The application now includes a unified controller in `src/Main.py` that coordinates student input processing, course planning, and Excel export.
 
 ## Requirements
 
@@ -81,6 +81,18 @@ This generates `data/degree_works_info.json`, which is excluded from Git trackin
 
 The planner also accepts another compatible DegreeWorks JSON file through the `--degreeworks` argument.
 
+## Run the Unified Application
+
+Generate an Excel course plan from a DegreeWorks PDF:
+
+    python src/Main.py --degreeworks-pdf "path/to/audit.pdf" --track software --start "Spring 2027" --output outputs/recommended_plan.xlsx
+
+Alternatively, use previously parsed DegreeWorks JSON:
+
+    python src/Main.py --degreeworks-json outputs/demo_student_audit.json --track software --start "Spring 2027" --output outputs/recommended_plan.xlsx
+
+The JSON-to-Excel workflow has been tested. Direct PDF-to-Excel execution still requires independent end-to-end verification.
+
 ## Generate a Course Plan
 
 Example: Software Development track, starting Spring 2027:
@@ -121,7 +133,7 @@ Run from the repository root:
 python -m unittest discover -s test -q
 ```
 
-The current test suite contains 36 automated tests covering:
+The current test suite contains 44 automated tests covering:
 
 - DegreeWorks parsing and regression cases
 - Semester planning and prerequisites
@@ -136,7 +148,7 @@ Some automated tests require the university data files included in the repositor
 
 ## Known Limitations
 
-- The working workflow uses command-line modules. A unified controller in `src/Main.py` has not yet been implemented.
+- The application uses a command-line interface. The complete PDF-to-Excel workflow still requires independent verification using a real PDF.
 - Some CYBR courses are absent from the CPSC catalog; provisional information is flagged for advisor verification.
 - Elective and MSOL placeholders are not automatically converted into specific courses.
 - The scheduling algorithm is not guaranteed to produce the shortest graduation path.
