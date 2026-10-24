@@ -26,6 +26,62 @@ def extract_text_from_pdf(pdf_path):
     return "\n".join(pages)
 
 
+COURSE_CODE = r"[A-Z]{4}\s+\d{4}[A-Z]?"
+
+# A course code starts where no capital letter or digit comes right before it,
+# and its "subject" is never the season word FALL (e.g. "FALL 2025").
+CODE_START = r"(?<![A-Z0-9])(?!FALL\s)"
+
+# Words that show a requirement title was cut off at the end of a line.
+CONTINUATION_WORDS = {"and", "of", "for", "in", "the", "to", "with", "&", "a", "an"}
+
+
+def _remove_notes_section(text):
+    """Drop the advisor 'Notes' section (up to 'Legend' or 'Disclaimer')."""
+    kept = []
+    in_notes = False
+
+    for line in text.splitlines():
+        stripped = line.strip()
+        if stripped == "Notes":
+            in_notes = True
+            continue
+        if in_notes and stripped.startswith(("Legend", "Disclaimer")):
+            in_notes = False
+        if not in_notes:
+            kept.append(line)
+
+    return "\n".join(kept)
+
+
+def _clean_title(text):
+    """Cut a requirement title before any course code or 'Still needed'."""
+    text = re.split(rf"{CODE_START}{COURSE_CODE}|Still needed", text)[0]
+    return text.strip(" -")
+
+
+def _requirement_title(text, following_lines):
+    """Return a requirement title, joining a label that wrapped onto a later line.
+
+    A title ending in a word like "and" was cut off. The rest is on one of
+    the next few lines; lines that begin with another course code belong to
+    other rows and are skipped.
+    """
+    title = _clean_title(text)
+    words = title.split()
+
+    if words and words[-1].lower() in CONTINUATION_WORDS:
+        for line in following_lines[:3]:
+            if re.match(rf"\s*{COURSE_CODE}", line):
+                continue
+            continuation = _clean_title(line)
+            if continuation:
+                title = f"{title} {continuation}"
+            break
+
+    return title
+
+
 def parse_courses(text):
     """
     Parse course records from a DegreeWorks audit.
@@ -41,12 +97,24 @@ def parse_courses(text):
     in_progress = {}
     remaining = {}
 
+    # Advisor notes are free text ("Fall 2025 - CPSC 6119, ...") and are
+    # not degree requirements, so they are excluded before parsing.
+    text = _remove_notes_section(text)
+
     # Find actual course records with grades/statuses.
+    # - Case-sensitive, so words such as "Fall" are never read as a subject.
+    # - The title may not contain another course code, so when a wrapped
+    #   requirement label shares a line with a course record, the match
+    #   starts at the course record's own code.
+    # - (?<![A-Z0-9]) instead of \b, so "DesignCPSC 6109" still matches.
+    # - A record must sit on one line ([ \t] instead of \s), so a
+    #   "Still needed ... CPSC 6179" line cannot merge with the next line's
+    #   record and steal its grade.
     course_pattern = re.compile(
-        r"\b([A-Z]{4})\s+(\d{4}[A-Z]?)\s+(.+?)\s+"
-        r"(CURR|[ABCDF][+-]?)\s+\(?(\d+)\)?\s+"
-        r"(Spring|Summer|Fall)\s+(\d{4})",
-        re.IGNORECASE
+        rf"{CODE_START}([A-Z]{{4}})[ \t]+(\d{{4}}[A-Z]?)[ \t]+"
+        rf"((?:(?!{COURSE_CODE}).)+?)[ \t]+"
+        r"(CURR|[ABCDF][+-]?)[ \t]+\(?(\d+)\)?[ \t]+"
+        r"(Spring|Summer|Fall)[ \t]+(\d{4})"
     )
 
     for match in course_pattern.finditer(text):
@@ -76,29 +144,31 @@ def parse_courses(text):
             completed[course_code] = course
 
     # DegreeWorks can list required courses before the actual course record.
-    # Find those requirement-style entries.
+    # Find those requirement-style entries ("CPSC 6179- Software ...").
     requirement_pattern = re.compile(
-        r"\b([A-Z]{4})\s+(\d{4}[A-Z]?)\s*-\s*([^\n]+)",
-        re.IGNORECASE
+        rf"{CODE_START}([A-Z]{{4}})\s+(\d{{4}}[A-Z]?)\s*-\s*([^\n]*)"
     )
 
-    for match in requirement_pattern.finditer(text):
-        subject = match.group(1).upper()
-        number = match.group(2).upper()
-        title = match.group(3).strip()
+    lines = text.splitlines()
 
-        course_code = f"{subject} {number}"
+    for index, line in enumerate(lines):
+        for match in requirement_pattern.finditer(line):
+            subject = match.group(1)
+            number = match.group(2)
+            course_code = f"{subject} {number}"
 
-        # If the course already has a completed or current record,
-        # it is not a remaining course.
-        if course_code in completed or course_code in in_progress:
-            continue
+            # If the course already has a completed or current record,
+            # it is not a remaining course.
+            if course_code in completed or course_code in in_progress:
+                continue
 
-        remaining[course_code] = {
-            "course_code": course_code,
-            "title": title,
-            "status": "REMAINING"
-        }
+            title = _requirement_title(match.group(3), lines[index + 1:])
+
+            remaining[course_code] = {
+                "course_code": course_code,
+                "title": title,
+                "status": "REMAINING"
+            }
 
     return {
         "completed_courses": list(completed.values()),
