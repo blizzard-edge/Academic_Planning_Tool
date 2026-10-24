@@ -1,86 +1,155 @@
 # Smart Class Planning Tool for Academic Advising
 
-A Python-based academic planning project for Columbus State University.
+CPSC 6177 - Software Design & Development
+Columbus State University | Fall 2026
 
-The tool uses student progress, graduate study plans, course catalog data,
-and course offerings to recommend semester-by-semester academic plans.
+## Project Overview
+
+The Smart Class Planning Tool is a Python-based academic advising project that generates semester-by-semester course recommendations.
+
+It combines:
+- A student's DegreeWorks academic audit
+- Graduate Study Plan requirements
+- The university's four-year course offering schedule
+- Course descriptions and prerequisites from the CSU CPSC catalog
+
+The resulting course plan can be exported to an Excel workbook.
+
+## Current Implementation
+
+The project includes:
+
+- DegreeWorks PDF parsing and course classification
+- Graduate Study Plan parsing
+- Four-year course schedule parsing
+- CPSC course catalog retrieval
+- Prerequisite checking
+- Semester-by-semester course planning
+- Course offering and input validation
+- Excel course plan export
+
+The current working workflow uses command-line modules. A unified application controller in `src/Main.py` has not yet been implemented.
 
 ## Requirements
 
 - Python 3.12 or newer
-- Dependencies from requirements.txt
+- Windows with PowerShell for the commands below
+- Dependencies listed in `requirements.txt`
 
 ## Installation
 
 Clone the repository:
 
-    git clone https://github.com/blizzard-edge/Academic_Planning_Tool.git
-    cd Academic_Planning_Tool
+```powershell
+git clone https://github.com/blizzard-edge/Academic_Planning_Tool.git
+cd Academic_Planning_Tool
 
-Create a virtual environment:
+```
 
-    python -m venv .venv
+Create and activate a virtual environment on Windows:
 
-Activate it on Windows:
-
-    .\.venv\Scripts\Activate.ps1
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
 
 Install dependencies:
 
-    python -m pip install -r requirements.txt
+```powershell
+python -m pip install -r requirements.txt
+```
 
-## Required Data
+## Project Data
 
-The planning workflow uses these files:
+The repository includes:
 
-- data/Graduate_Study_Plans.xlsx
-- data/4_year_schedule.xlsx
-- data/cpsc_course_catalog.json
-- data/degree_works_info.json
+- `data/Graduate_Study_Plans.xlsx`
+- `data/4_year_schedule.xlsx`
+- `data/cpsc_course_catalog.json`
 
-The DegreeWorks JSON contains student information and must remain local.
-It is excluded from Git tracking.
+Student DegreeWorks information is not included in GitHub because it may contain personally identifying information.
 
 ## Prepare Student Data
 
-Export your DegreeWorks audit as a PDF, then run:
+Export an authorized DegreeWorks audit as a PDF and run:
 
-    python src/DegreeWorksParser.py "path\to\your_degreeworks.pdf"
+```powershell
+python src/DegreeWorksParser.py "path\to\degreeworks.pdf"
+```
 
-This creates `data/degree_works_info.json`, which stays local and is
-excluded from Git. Use only your own or authorized student records.
+This generates `data/degree_works_info.json`, which is excluded from Git tracking.
 
-Optional: refresh the course catalog:
+The planner also accepts another compatible DegreeWorks JSON file through the `--degreeworks` argument.
 
-    python src/CourseCatalogRetriever.py
-## Run the Course Planner
+## Generate a Course Plan
 
-The course planner is currently developed in PR #4 on the
-feature/course-planner branch. It becomes available on main after merging.
+Example: Software Development track, starting Spring 2027:
 
-Generate a Software Development plan:
+```powershell
+python src/CoursePlannerIntegration.py --track software --start "Spring 2027" --max-credits 12 --output outputs/recommended_plan.json
+```
 
-    python src/CoursePlannerIntegration.py --track software --start "Spring 2027"
+Supported track arguments:
 
-Other supported ACS tracks:
+| Argument | Graduate study plan |
+|---|---|
+| `software` | ACS - Software Development |
+| `general` | ACS - General |
+| `ai` | ACS - AI and Data Science |
+| `cyber-defense` | CYBR - Cyber Defense |
+| `cyber-management` | CYBR - Management |
 
-- ai
-- general
+The planner considers course availability, prerequisites, previously completed courses, courses in progress, and semester credit limits.
 
-Save a plan to JSON:
-
-    python src/CoursePlannerIntegration.py --track software --start "Spring 2027" --output outputs/recommended_plan.json
+Use `--no-summer` to exclude summer semesters.
 
 ## Export to Excel
 
-    python src/CoursePlanExporter.py outputs/recommended_plan.json outputs/recommended_plan.xlsx
+After generating the JSON plan, run:
 
-Note: The exporter is still undergoing integration testing. Verify
-that all semesters appear in the exported workbook.
+```powershell
+python src/CoursePlanExporter.py outputs/recommended_plan.json outputs/recommended_plan.xlsx
+```
 
-## Privacy and Academic Advising
+The resulting workbook contains the semester-by-semester course recommendations.
 
-Do not commit student records or personally identifying information.
+## Automated Testing
 
-Course recommendations may include provisional credits or conditional
-prerequisites. Confirm academic requirements with an advisor.
+Run from the repository root:
+
+```powershell
+python -m unittest discover -s test -q
+```
+
+The current test suite contains 36 automated tests covering:
+
+- DegreeWorks parsing and regression cases
+- Semester planning and prerequisites
+- Course offering schedules
+- Credit limits and conditional requirements
+- Study-plan and schedule-parser integration
+- Input and course-offering validation
+
+A separate new-student integration test successfully scheduled eight courses across four semesters, verified course availability and prerequisite results, and confirmed that all eight courses appeared in the Excel output.
+
+Some automated tests require the university data files included in the repository.
+
+## Known Limitations
+
+- The working workflow uses command-line modules. A unified controller in `src/Main.py` has not yet been implemented.
+- Some CYBR courses are absent from the CPSC catalog; provisional information is flagged for advisor verification.
+- Elective and MSOL placeholders are not automatically converted into specific courses.
+- The scheduling algorithm is not guaranteed to produce the shortest graduation path.
+- Concurrent enrollment and certain prerequisite relationships may require advisor approval.
+- Additional DegreeWorks PDF layouts still need testing.
+- The current-semester reference is fixed at Fall 2026.
+
+## Privacy
+
+Do not commit personal academic records, student identifiers, or private DegreeWorks files.
+
+The standard local DegreeWorks JSON output is excluded through `.gitignore`.
+
+## Academic Advising Disclaimer
+
+Generated recommendations are planning aids, not official graduation approvals. Students should verify requirements, prerequisites, and availability with their academic advisors.
