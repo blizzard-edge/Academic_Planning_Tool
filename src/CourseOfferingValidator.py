@@ -40,7 +40,7 @@ def season_of(term):
 def is_offered(course_code, semester, offering_schedule):
 	"""Return whether a course is offered in the specified semester."""
 	terms = offering_schedule.get(course_code)
-	
+
 	# Treat missing or incorrectly formatted offering data as unavailable.
 	if not isinstance(terms, list):
 		return False
@@ -77,7 +77,7 @@ def validate_and_adjust_plan(plan, offering_schedule):
 		raise ValueError("The offering schedule must be a dictionary.")
 
 	adjusted_plan = []
-	
+
 	for semester_entry in plan:
 		# Each semester must be represented by a dictionary.
 		if not isinstance(semester_entry, dict):
@@ -98,70 +98,70 @@ def validate_and_adjust_plan(plan, offering_schedule):
 		copied_entry["courses"] = [dict(course) if isinstance(course, dict) else course for course in semester_entry["courses"]]
 		adjusted_plan.append(copied_entry)
 
-		# Store unresolved availability issues and successful course moves separately.
-		conflicts = []
-		adjustments = []
+	# Store unresolved availability issues and successful course moves separately.
+	conflicts = []
+	adjustments = []
 
-		# Process each semester in the order it appears in the plan.
-		for index, semester_entry in enumerate(adjusted_plan):
-			current_semester = semester_entry["semester"]
-			remaining_courses = []
+	# Process each semester in the order it appears in the plan.
+	for index, semester_entry in enumerate(adjusted_plan):
+		current_semester = semester_entry["semester"]
+		remaining_courses = []
 
-			for course in semester_entry["courses"]:
-				# Report malformed course entries instead of silently ignoring them.
-				if not isinstance(course, dict) or not course.get("course_code"):
-					conflicts.append({
-						"course_code": "UNKNOWN",
-						"semester": current_semester,
-						"reason": "Course entry is missing a course_code."
-					})
-					# Keep malformed entries in the plan for visibility.
-					remaining_courses.append(course)
-					continue
+		for course in semester_entry["courses"]:
+			# Report malformed course entries instead of silently ignoring them.
+			if not isinstance(course, dict) or not course.get("course_code"):
+				conflicts.append({
+					"course_code": "UNKNOWN",
+					"semester": current_semester,
+					"reason": "Course entry is missing a course_code."
+				})
+				# Keep malformed entries in the plan for visibility.
+				remaining_courses.append(course)
+				continue
 
-				# Remove surrounding whitespace from the course code before lookup.
-				code = course["course_code"].strip()
-				if is_offered(code, current_semester, offering_schedule):
-					remaining_courses.append(course)
-					continue
+			# Remove surrounding whitespace from the course code before lookup.
+			code = course["course_code"].strip()
+			if is_offered(code, current_semester, offering_schedule):
+				remaining_courses.append(course)
+				continue
 
-				destination = None
-				for later_index in range(index + 1, len(adjusted_plan)):
-					later_semester = adjusted_plan[later_index]["semester"]
-					if is_offered(code, later_semester, offering_schedule):
-						destination = later_index
-						break
+			destination = None
+			for later_index in range(index + 1, len(adjusted_plan)):
+				later_semester = adjusted_plan[later_index]["semester"]
+				if is_offered(code, later_semester, offering_schedule):
+					destination = later_index
+					break
 
-				# If no later semester works, record a conflict for advisor review.
-				if destination is None:
-					conflicts.append({
-						"course_code": code,
-						"semester": current_semester,
-						"reason": (
-							"Course is not offered in the assigned semester and no "
-							"later available semester exists in the supplied plan."
-						)
-					})
-				
-					# Keep the course in the plan so it is not silently lost.
-					remaining_courses.append(course)
+			# If no later semester works, record a conflict for advisor review.
+			if destination is None:
+				conflicts.append({
+					"course_code": code,
+					"semester": current_semester,
+					"reason": (
+						"Course is not offered in the assigned semester and no "
+						"later available semester exists in the supplied plan."
+					)
+				})
 
-				else: 
-					destination_semester = adjusted_plan[destination]["semester"]
-					adjusted_plan[destination]["courses"].append(course)
+				# Keep the course in the plan so it is not silently lost.
+				remaining_courses.append(course)
 
-					# Record the change so it can be included in the output report.
-					adjustments.append({
-						"course_code": code,
-						"from_semester": current_semester,
-						"to_semester": destination_semester
-					})
+			else:
+				destination_semester = adjusted_plan[destination]["semester"]
+				adjusted_plan[destination]["courses"].append(course)
 
-			semester_entry["courses"] = remaining_courses
+				# Record the change so it can be included in the output report.
+				adjustments.append({
+					"course_code": code,
+					"from_semester": current_semester,
+					"to_semester": destination_semester
+				})
 
-		# Remove empty semesters only if they were empty in the original plan too;
-		# preserve the user's intended semester structure.
-		return adjusted_plan, conflicts, adjustments
+		semester_entry["courses"] = remaining_courses
+
+	# Remove empty semesters only if they were empty in the original plan too;
+	# preserve the user's intended semester structure.
+	return adjusted_plan, conflicts, adjustments
 
 def main():
 	if len(sys.argv) != 4:
