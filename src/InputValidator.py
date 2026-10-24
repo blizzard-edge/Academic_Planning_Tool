@@ -116,9 +116,9 @@ def validate_catalog(catalog):
 		if not isinstance(course.get("title"), str) or not course["title"].strip():
 			errors.append(f"Catalog record {index + 1} has no valid title.")
 
-		if errors:
-			raise ValueError("Invalid course catalog:\n- " + "\n- ".join(errors))
-		return True
+	if errors:
+		raise ValueError("Invalid course catalog:\n- " + "\n- ".join(errors))
+	return True
 
 def validate_offerings(offerings):
 	"""Check that the offering schedule maps course codes to season/term lists."""
