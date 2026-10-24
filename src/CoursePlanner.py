@@ -424,6 +424,13 @@ def build_course_plan(
         raise ValueError("required_courses must be a list.")
     if not isinstance(degreeworks_data, dict):
         raise ValueError("degreeworks_data must be a dictionary.")
+    required_fields = ("completed_courses", "in_progress_courses")
+    missing = [field for field in required_fields if field not in degreeworks_data]
+    if missing:
+        raise ValueError("Invalid DegreeWorks data: missing " + ", ".join(missing))
+    for field in required_fields:
+        if not isinstance(degreeworks_data[field], list):
+            raise ValueError(f"Invalid DegreeWorks data: {field} must be a list.")
     if not isinstance(course_catalog, list):
         raise ValueError("course_catalog must be a list.")
     if not isinstance(offering_schedule, dict):
