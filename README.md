@@ -28,7 +28,7 @@ The project includes:
 - Course offering and input validation
 - Excel course plan export
 
-The application now includes a unified controller in `src/Main.py` that coordinates student input processing, course planning, and Excel export.
+We use `src/Main.py` to run the application. It connects the input processing, course planner, and Excel exporter. The planner also uses `PrerequisiteChecker.py` to check prerequisites when scheduling courses.
 
 ## Requirements
 
@@ -133,7 +133,7 @@ Run from the repository root:
 python -m unittest discover -s test -q
 ```
 
-The current test suite contains 44 automated tests covering:
+The current test suite contains 45 automated tests covering:
 
 - DegreeWorks parsing and regression cases
 - Semester planning and prerequisites
