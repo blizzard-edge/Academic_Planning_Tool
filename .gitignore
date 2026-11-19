@@ -10,3 +10,8 @@ data/*DegreeWorks*.json
 outputs/
 .venv/
 
+
+# PyInstaller generated files
+build/
+dist/
+*.spec

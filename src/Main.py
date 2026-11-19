@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import sys
 import tempfile
 from pathlib import Path
 
@@ -11,7 +12,17 @@ from DegreeWorksParser import extract_text_from_pdf, parse_courses
 from InputValidator import validate_pdf
 
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = (
+    Path(sys._MEIPASS)
+    if getattr(sys, "frozen", False)
+    else Path(__file__).resolve().parent.parent
+)
+
+DEFAULT_OUTPUT = (
+    Path.home() / "Documents" / "SmartClassPlanningTool" / "recommended_plan.xlsx"
+    if getattr(sys, "frozen", False)
+    else ROOT / "outputs" / "recommended_plan.xlsx"
+)
 
 
 def run_application(args):
@@ -104,7 +115,7 @@ def main():
     parser.add_argument(
         "--output",
         type=Path,
-        default=ROOT / "outputs" / "recommended_plan.xlsx",
+        default=DEFAULT_OUTPUT,
     )
 
     args = parser.parse_args()
