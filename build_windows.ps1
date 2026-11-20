@@ -1,6 +1,6 @@
-﻿$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Stop"
 
-Set-Location (Split-Path -Parent $PSScriptRoot)
+Set-Location $PSScriptRoot
 
 python -m PyInstaller --noconfirm --clean --onedir --console `
     --name SmartClassPlanningTool `
