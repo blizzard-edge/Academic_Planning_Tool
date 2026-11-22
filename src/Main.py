@@ -76,6 +76,91 @@ def run_application(args):
     return result
 
 
+
+def launch_file_picker():
+    """Simple window for running the installed application."""
+    import tkinter as tk
+    from tkinter import filedialog, messagebox, ttk
+
+    window = tk.Tk()
+    window.title("Smart Class Planning Tool")
+    window.geometry("540x250")
+    window.resizable(False, False)
+
+    pdf_path = tk.StringVar()
+    track = tk.StringVar(value="general")
+    start = tk.StringVar(value="Spring 2027")
+
+    frame = ttk.Frame(window, padding=20)
+    frame.pack(fill="both", expand=True)
+
+    ttk.Label(frame, text="DegreeWorks PDF").grid(
+        row=0, column=0, sticky="w", pady=8
+    )
+    ttk.Entry(frame, textvariable=pdf_path, width=44).grid(
+        row=0, column=1, padx=8
+    )
+
+    def browse():
+        selected = filedialog.askopenfilename(
+            parent=window,
+            title="Select DegreeWorks PDF",
+            filetypes=[("PDF files", "*.pdf")],
+        )
+        if selected:
+            pdf_path.set(selected)
+
+    ttk.Button(frame, text="Browse", command=browse).grid(row=0, column=2)
+
+    ttk.Label(frame, text="Degree track").grid(row=1, column=0, sticky="w")
+    ttk.Combobox(
+        frame, textvariable=track, values=list(TRACKS),
+        state="readonly", width=25
+    ).grid(row=1, column=1, sticky="w", padx=8, pady=8)
+
+    ttk.Label(frame, text="Start semester").grid(row=2, column=0, sticky="w")
+    ttk.Entry(frame, textvariable=start, width=27).grid(
+        row=2, column=1, sticky="w", padx=8, pady=8
+    )
+
+    def generate():
+        if not pdf_path.get():
+            messagebox.showwarning(
+                "Missing file", "Please select a DegreeWorks PDF."
+            )
+            return
+
+        args = argparse.Namespace(
+            degreeworks_pdf=Path(pdf_path.get()),
+            degreeworks_json=None,
+            track=track.get(),
+            start=start.get().strip(),
+            max_credits=12,
+            no_summer=False,
+            study_plans=ROOT / "data" / "Graduate_Study_Plans.xlsx",
+            schedule=ROOT / "data" / "4_year_schedule.xlsx",
+            catalog=ROOT / "data" / "cpsc_course_catalog.json",
+            output=DEFAULT_OUTPUT,
+        )
+
+        try:
+            run_application(args)
+        except Exception as error:
+            messagebox.showerror("Planning error", str(error))
+            return
+
+        messagebox.showinfo(
+            "Plan created",
+            f"Your Excel course plan was saved to:\n{args.output}"
+        )
+
+    ttk.Button(
+        frame, text="Generate Course Plan", command=generate
+    ).grid(row=3, column=1, sticky="w", padx=8, pady=18)
+
+    window.mainloop()
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Generate an academic course plan directly to Excel."
@@ -127,4 +212,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) == 1:
+        launch_file_picker()
+    else:
+        main()
